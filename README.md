@@ -3,13 +3,13 @@ In this repository we will be talking about Pickup and Delivery Problems with Tr
 
 Contributors:
 
-Santiago Hincapie
-Mathematical Engineering Student
-Departamento de Ciencia Matematicas, Universidad EAFIT.
-Email - shinca12@eafit.edu.co
+Santiago Hincapie<br>
+Mathematical Engineering Student<br>
+Departamento de Ciencia Matematicas, Universidad EAFIT.<br>
+Email - shinca12@eafit.edu.co<br>
 Github - https://github.com/shpotes
 
-Catalina Lesmes
-Mathematical Engineering Student 
-Departamento de Ciencia Matematicas, Universidad EAFIT.
+Catalina Lesmes<br>
+Mathematical Engineering Student<br>
+Departamento de Ciencia Matematicas, Universidad EAFIT.<br>
 Email - clesmes@eafit.edu.co   

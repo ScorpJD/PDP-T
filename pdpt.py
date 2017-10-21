@@ -61,6 +61,11 @@ class PDPT:
             c += self.floyd[1][path[i]][path[i+1]]
         return c
 
+    def GRASP(self, function, k, maxIter, sol=None):
+        for i in range(maxIter):
+            sol = self.funtion(sol, k)
+        return sol
+
     def route_insert(self, S, v, a):
         """
         uses brute force search to find the optimal placement to insert the
@@ -70,13 +75,18 @@ class PDPT:
         actMin = math.inf
         for i in range(len(Sol)):
             for j in range(i, len(Sol)):
-                b = Sol[:i] + [a[0]] + Sol[i:j] + Sol[j:]
+                b = Sol[:i] + [a[0]] + Sol[i:j] + [a[1]] + Sol[j:]
                 if self.cost(b) < actMin:
                     Soli = b
                     actMin = self.cost(b)
         return Soli, actMin
 
     def GRASP_route_insert(self, S, v, a, k):
+        """
+        Find the optimal placement to insert the actions in `a` into the
+        schedule `S` for the vehicle `v`, using brute froce with GRASP meta
+        heuristic with coefficient `k`.
+        """
         Sol = S.path[self.vehicles.index(v)]
         Soli = []
         for i in range(len(Sol)):
@@ -136,12 +146,12 @@ class PDPT:
             A = A.append(Soli[index][-1])
         return S
 
-    def MULTISTART(self, MaxIter, seed=None):
+    def MULTISTART(self, MaxIter, seed=None, GRASP=False, k=0):
         def PARA(req, sol):
             costR = math.inf
             route = []
             for r in sol.path:
-                A = 1  # The cost of the best insertion of req in r
+                # The cost of the best insertion of req in r
                 if A < costR:
                     costR = A
                     route = r
@@ -166,11 +176,10 @@ class PDPT:
                     sol3 = PARA((r[0], t), sol3) + PARA((t, r[1]), sol3)
                     cost = min(sol2.f(), sol3.f())
                     if Tbest > cost:
-                        Tbest = cost
+                        Tbest = costnnnn
                         Tsol = sol2 if sol2.f() < sol3.f() else sol3
                 Sol = Tsol
             return Tsol
-
         sol = Solution(floyd=self.floyd)
         sol1 = Solution(floyd=self.floyd)
         sol.distance = math.inf
@@ -195,7 +204,7 @@ class PDPT:
             * Moves Matrix
             * total distance
         """
-        
+
         return eval("{f}(solution=solution)".format(f=method))
 
 

@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-import PDPT
+# import pdpt
 import networkx as nx
 
 
+# TODO Document this shit
 class Solution():
     def __init__(self, instance, request=[], path=[], floyd=None):
         self.problem = instance

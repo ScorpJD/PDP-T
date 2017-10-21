@@ -7,4 +7,5 @@ import networkx as nx
 
 def fromfile(path):
     with open(path, 'r') as file:
-        N, trash* = file.readline()
+        N, b = file.readline().split()
+        

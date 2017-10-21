@@ -56,6 +56,17 @@ class PDPT:
 # # # # # # # # # # # # # # Constructive methods # # # # # # # # # # # # # # #
 
     def cost(self, path):
+        """Compute path cost.
+
+        This method compute the cost of the path `path` using floyd Warshall
+        algorithm from [NetworkX]().
+
+        Runtime: O(|path|)
+        Aditional space: O(1)
+
+        Patameters:
+            path  (): The path.
+        """
         c = 0
         for i in range(len(path)-1):
             c += self.floyd[1][path[i]][path[i+1]]
@@ -67,25 +78,45 @@ class PDPT:
         return sol
 
     def route_insert(self, S, v, a):
-        """
+        """Find the optimal placement
+
         uses brute force search to find the optimal placement to insert the
         actions in a into the schedule S_v
+
+        Runtime: O(n^3)
+        Aditional space: O(n)
+
+        Parameters:
+           S
+           V
+           a
         """
         Sol = S.path[self.vehicles.index(v)]
         actMin = math.inf
         for i in range(len(Sol)):
             for j in range(i, len(Sol)):
                 b = Sol[:i] + [a[0]] + Sol[i:j] + [a[1]] + Sol[j:]
-                if self.cost(b) < actMin:
+                actCost = self.cost(b)
+                if actCost < actMin:
                     Soli = b
-                    actMin = self.cost(b)
+                    actMin = actCost
         return Soli, actMin
 
     def GRASP_route_insert(self, S, v, a, k):
-        """
+        """Find the optimal placement
+
         Find the optimal placement to insert the actions in `a` into the
         schedule `S` for the vehicle `v`, using brute froce with GRASP meta
         heuristic with coefficient `k`.
+
+        Runtime: O(n^3)
+        Additiona space: O(n)
+
+        Parameters:
+            S
+            V
+            a
+            k
         """
         Sol = S.path[self.vehicles.index(v)]
         Soli = []
@@ -97,7 +128,8 @@ class PDPT:
         return Soli[random.randint(k)]
 
     def greedy_nt(self):
-        """
+        """Solve PDP problem
+
         In the greedy approach, we iterate through every item m and vehicle v,
         insert the PICKUP(m) and DELIVER(m) actions into S^v at the points of
         lowest cost without rearranging the other actions. We then choose the
@@ -105,6 +137,9 @@ class PDPT:
         assign item m to vehicle v with the previously discovered best action
         insertion points. We repeat the process of greedily assigning items to
         vehicles until no unassigned items remain
+
+        Runtime: O(|request|^2*|vehicles|*n^3)
+        Additional space: O(|request|)
         """
         S = Solution(floyd=self.floyd)
         S.path = self.request
@@ -127,6 +162,16 @@ class PDPT:
         return S
 
     def GRASP_greedy_nt(self, k):
+        """Solve PDP problem
+
+        Like `greedy_nt` method but using GRASP meta-heuristic
+
+        Runtime: O(|request|^2*|vehicles|*n^3)
+        Additional space: O(|request|)
+
+        Parameters:
+           k  (Int): GRASP parameter
+        """
         S = Solution(floyd=self.floyd)
         S.path = self.request
         A = []
@@ -147,11 +192,52 @@ class PDPT:
         return S
 
     def MULTISTART(self, MaxIter, seed=None, GRASP=False, k=0):
+        """ Solve PDPT
+
+        An hybrid because it combines several techniques and methods
+        issued from different meta- heuristics such as: path relinking,
+        variable neighbour-hood descent. Base on [1].
+
+        Runtime:
+        Additional Space:
+
+        Parameters:
+          MaxIter  ():
+          seed     ():
+          GRASP    ():
+          k        ():
+
+        References:
+          [1] Takoudjou, R. T., Deschamps, J., & Dupas, R. (2012).
+              A hybrid multistart heuristic for the pickup and delivery
+              problem with and without transshipment. 9th International
+              Conference on Modeling, Optimization & SIMulation.
+
+        """
         def PARA(req, sol):
+            """ Solve PDP
+
+            This constructive heuristic operates in a parallel and
+            greedy way to insert a request. The initial solution Sol = {r (a)}
+            is consisting of a single route containing only the starting point
+            and the ending point of each route ( r (a) = {o1, o2}). Requests
+            are then successively introduced into the tour of a vehicle
+            offering the minimal increase of the cost of transport. If no
+            vehicle can satisfy a request because of the non compliance with
+            constraints (vehicle capacity, time windows, etc.), a new route is
+            created to welcome the considered request.
+
+            Runtime: O()
+            Additional space: O()
+
+            Parameters:
+               req  ():
+               sol  ():
+            """
             costR = math.inf
             route = []
             for r in sol.path:
-                # The cost of the best insertion of req in r
+                # A = The cost of the best insertion of req in r
                 if A < costR:
                     costR = A
                     route = r
@@ -166,6 +252,29 @@ class PDPT:
                 sol.path.append(rh)
 
         def TRANSSHIPMENT(R, Sol, T):
+            """Add transferships to a PDP solution
+
+            At each iteration, the transshipment heuristic is used to improve
+            the PDP solution and obtain a solution to the PDPT. From the
+            current PDP solution, each request (i, i+n) ∈ R; is removed from
+            the solu- tion. Then, (i, i+n) is split into two different requests
+            (i, et) and (st, i + n), where et and st are the inbound/outbound
+            doors of a transshipment point t ∈ T. The best reinsertion cost of
+            (i, i+n) in the solution is computed. The best insertion cost to
+            insert (i, et) following by insertion of (st, i + n) in the solution
+            is computed. The cost to insert (st, i+n) following by the insertion
+            of (i, et) at their best position is computed. Between the three
+            possibilities, the insertion or the reinsertions offering the
+            minimum cost is performed.
+
+            Runtime:
+            Additional space:
+
+            Parameters:
+               R    ():
+               Sol  ():
+               T    ():
+            """
             Tsol = Sol
             Tbest = Sol.f()
             for r in R:
@@ -176,7 +285,7 @@ class PDPT:
                     sol3 = PARA((r[0], t), sol3) + PARA((t, r[1]), sol3)
                     cost = min(sol2.f(), sol3.f())
                     if Tbest > cost:
-                        Tbest = costnnnn
+                        Tbest = cost
                         Tsol = sol2 if sol2.f() < sol3.f() else sol3
                 Sol = Tsol
             return Tsol
@@ -203,10 +312,9 @@ class PDPT:
         Return:
             * Moves Matrix
             * total distance
+
+        TODO
         """
-
-        return eval("{f}(solution=solution)".format(f=method))
-
 
 ################################## FrontEnd ##################################
 

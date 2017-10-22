@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# import pdpt
 import networkx as nx
 
 
@@ -27,11 +26,26 @@ class Solution():
         self.f()
 
     def isFeasible(self):
-        return bool(self.request)
+        """ Check feasibility of the actual solution
+
+        runtime: O(1)
+        additional space: O(1)
+        """
+        return bool(self.request and self.path)
 
     def f(self):
         """
         Compute actual objective function value.
+
+        runtime: O(|path|)
+        aditional space: O(1)
+
+        Note:
+           There are many PDP-T formulation with different objective function,
+           like, minimum travel time, if you want to solve a PDP-T problem with
+           a distric objective function, change this fuction.
+           (runtime and aditional space for this function and many other
+            function has a strong objective function dependence.)
         """
         for i in range(len(self.path)):
             if i < len(self.path) - 1:

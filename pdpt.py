@@ -57,7 +57,7 @@ class PDPT:
 
 # # # # # # # # # # # # # # Constructive methods # # # # # # # # # # # # # # #
 
-    def GRASP(self, function, k, maxIter, sol=None):
+    def GRASP(self, function, k, maxIter, sol=None, **karg):
         """ Functional GRASP Meta heuristic
 
         This GRASP method is based on the original GRASP meta heuristic
@@ -72,11 +72,13 @@ class PDPT:
            maxIter           (Int): maximum number of iterations
            sol                  (): initial solution
 
-        TODO: verify this method
+        TODO: check this method
         """
+        soli = []
         for i in range(maxIter):
-            sol = function(sol, k)
-        return sol
+            soli.append(function(Sol=sol, **karg))  # NOTE: Need to be fix
+        if 0 < k and k < maxIter:  # NOTE: Try Catch!
+            return soli[random.randint(k)]
 
     def route_insert(self, S, v, a):
         """Find the optimal placement
@@ -103,6 +105,9 @@ class PDPT:
                     actMin = actCost
         return Soli, actMin
 
+    '''
+    NOTE: Now there are a functional GRASP method.
+
     def GRASP_route_insert(self, S, v, a, k):
         """Find the optimal placement
 
@@ -127,6 +132,7 @@ class PDPT:
                 Soli.append((b, self.cost(b)))
         Soli.sort(key=lambda x: x[1])
         return Soli[random.randint(k)]
+    '''
 
     def greedy_nt(self):
         """Solve PDP problem
@@ -162,6 +168,9 @@ class PDPT:
             A = A.append(m)
         return S
 
+    '''
+    NOTE: Now there are a general GRASP method.
+
     def GRASP_greedy_nt(self, k):
         """Solve PDP problem
 
@@ -191,57 +200,34 @@ class PDPT:
             S.path = self.route_insert(*Soli[index][1:])
             A = A.append(Soli[index][-1])
         return S
+    '''
+    def PARA(self, req, Sol):
+        """ Solve PDP
 
-    def MULTISTART(self, MaxIter, seed=None, GRASP=False, k=0):
-        """ Solve PDPT
+        This constructive heuristic operates in a parallel and
+        greedy way to insert a request. The initial solution Sol = {r (a)}
+        is consisting of a single route containing only the starting point
+        and the ending point of each route ( r (a) = {o1, o2}). Requests
+        are then successively introduced into the tour of a vehicle
+        offering the minimal increase of the cost of transport. If no
+        vehicle can satisfy a request because of the non compliance with
+        constraints (vehicle capacity, time windows, etc.), a new route is
+        created to welcome the considered request.
 
-        An hybrid because it combines several techniques and methods
-        issued from different meta- heuristics such as: path relinking,
-        variable neighbour-hood descent. Base on [1].
-
-        Runtime:
-        Additional Space:
+        Runtime: O()
+        Additional space: O()
 
         Parameters:
-          MaxIter  ():
-          seed     ():
-          GRASP    ():
-          k        ():
-
-        References:
-          [1] Takoudjou, R. T., Deschamps, J., & Dupas, R. (2012).
-              A hybrid multistart heuristic for the pickup and delivery
-              problem with and without transshipment. 9th International
-              Conference on Modeling, Optimization & SIMulation.
-
+            req  ():
+            sol  ():
         """
-        def PARA(req, Sol):
-            """ Solve PDP
-
-            This constructive heuristic operates in a parallel and
-            greedy way to insert a request. The initial solution Sol = {r (a)}
-            is consisting of a single route containing only the starting point
-            and the ending point of each route ( r (a) = {o1, o2}). Requests
-            are then successively introduced into the tour of a vehicle
-            offering the minimal increase of the cost of transport. If no
-            vehicle can satisfy a request because of the non compliance with
-            constraints (vehicle capacity, time windows, etc.), a new route is
-            created to welcome the considered request.
-
-            Runtime: O()
-            Additional space: O()
-
-            Parameters:
-               req  ():
-               sol  ():
-            """
-            costR = math.inf
-            route = []
-            for r in Sol.path:
-                # A = The cost of the best insertion of req in r
-                if A < costR:
-                    costR = A
-                    route = r
+        costR = math.inf
+        route = []
+        for r in Sol.path:
+            # A = The cost of the best insertion of req in r
+            if A < costR:
+                costR = A
+                route = r
             if costR != math.inf:
                 bestInsertion = 2, 4
                 route.insert(bestInsertion[0], req[0])
@@ -252,44 +238,45 @@ class PDPT:
                 # insert req at the best slot in rh
                 Sol.path.append(rh)
 
-        def TRANSSHIPMENT(R, Sol, T):
-            """Add transferships to a PDP solution
+    def TRANSSHIPMENT(self, R, Sol, T):
+        """Add transferships to a PDP solution
 
-            At each iteration, the transshipment heuristic is used to improve
-            the PDP solution and obtain a solution to the PDPT. From the
-            current PDP solution, each request (i, i+n) ∈ R; is removed from
-            the solu- tion. Then, (i, i+n) is split into two different requests
-            (i, et) and (st, i + n), where et and st are the inbound/outbound
-            doors of a transshipment point t ∈ T. The best reinsertion cost of
-            (i, i+n) in the solution is computed. The best insertion cost to
-            insert (i, et) following by insertion of (st, i + n) in the solution
-            is computed. The cost to insert (st, i+n) following by the insertion
-            of (i, et) at their best position is computed. Between the three
-            possibilities, the insertion or the reinsertions offering the
-            minimum cost is performed.
+        At each iteration, the transshipment heuristic is used to improve
+        the PDP solution and obtain a solution to the PDPT. From the
+        current PDP solution, each request (i, i+n) ∈ R; is removed from
+        the solu- tion. Then, (i, i+n) is split into two different requests
+        (i, et) and (st, i + n), where et and st are the inbound/outbound
+        doors of a transshipment point t ∈ T. The best reinsertion cost of
+        (i, i+n) in the solution is computed. The best insertion cost to
+        insert (i, et) following by insertion of (st, i + n) in the solution
+        is computed. The cost to insert (st, i+n) following by the insertion
+        of (i, et) at their best position is computed. Between the three
+        possibilities, the insertion or the reinsertions offering the
+        minimum cost is performed.
 
-            Runtime:
-            Additional space:
+        Runtime:
+        Additional space:
 
-            Parameters:
-               R    ():
-               Sol  ():
-               T    ():
-            """
-            Tsol = Sol
-            Tbest = Sol.f()
-            for r in R:
-                sol1 = Sol; sol1.path.remove(r)
-                for t in T:
-                    sol2 = sol1; sol3 = sol1
-                    sol2 = PARA(r, sol2)
-                    sol3 = PARA((r[0], t), sol3) + PARA((t, r[1]), sol3)
-                    cost = min(sol2.f(), sol3.f())
-                    if Tbest > cost:
-                        Tbest = cost
-                        Tsol = sol2 if sol2.f() < sol3.f() else sol3
-                Sol = Tsol
-            return Tsol
+        Parameters:
+           R    ():
+           Sol  ():
+           T    ():
+        """
+        Tsol = Sol
+        Tbest = Sol.f()
+        for r in R:
+            sol1 = Sol; sol1.path.remove(r)
+            for t in T:
+                sol2 = sol1; sol3 = sol1
+                sol2 = PARA(r, sol2)
+                sol3 = PARA((r[0], t), sol3) + PARA((t, r[1]), sol3)
+                cost = min(sol2.f(), sol3.f())
+                if Tbest > cost:
+                    Tbest = cost
+                    Tsol = sol2 if sol2.f() < sol3.f() else sol3
+            Sol = Tsol
+        return Tsol
+
         sol = Solution(floyd=self.floyd)
         sol1 = Solution(floyd=self.floyd)
         sol.distance = math.inf
@@ -303,20 +290,42 @@ class PDPT:
             sol1 = Solution(floyd=self.floyd)
         return sol
 
-
-    def solve(self, method=None, solution=None):
-        """solver for PDPT instance
-
+    def MULTISTART(self, MaxIter, lamb, seed=None, GRASP=False, k=0):
+        """ Solve PDPT
+        An hybrid because it combines several techniques and methods
+        issued from different meta- heuristics such as: path relinking,
+        variable neighbour-hood descent. Base on [1].
+        Runtime:
+        Additional Space:
         Parameters:
-            method      (str): the solution method
-            solution  (tuple): initial solution
-
-        Return:
-            * Moves Matrix
-            * total distance
-
-        TODO
+          MaxIter  ():
+          seed     ():
+          GRASP    ():
+          k        ():
+        References:
+          [1] Takoudjou, R. T., Deschamps, J., & Dupas, R. (2012).
+              A hybrid multistart heuristic for the pickup and delivery
+              problem with and without transshipment. 9th International
+              Conference on Modeling, Optimization & SIMulation.
         """
+        Pool = None; Sol = None; Sol1 = None
+        Sol1.distance = math.inf
+        for i in range(MaxIter):
+            for i in randomRequest:  # TODO
+                Sol1 = self.PARA((i, i+n), Sol1)  # TODO
+            # Sol1 = VND(Sol1)
+            if i < lamb:
+                Pool.append(Sol1)
+            Solg = self.Guiding(Pool)  # TODO
+            Soli = self.PATHRELINKING(Sol1, Solg) # TODO
+            if Soli.distance < Sol1.distance:
+                Sol1 = Soli
+            self.UPDATE(Pool, Sol1)
+            Sol1 = self.TRASSHIPMENT(R, Sol1, T)
+            if Sol1.distance < Sol.distance:
+                Sol = Sol1
+            Sol1 = None
+        return Sol
 
 ################################## FrontEnd ##################################
 

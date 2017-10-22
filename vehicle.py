@@ -15,7 +15,7 @@ class Vehicle:
         Parameters:
             deposts  (list): The vehicle initial position
             limit   (tuple): The vehicle limit capacity
-            request      (list): The request assign to this vehicle
+            request  (list): The request assign to this vehicle
         """
         self.time = 0
         self.position = depost

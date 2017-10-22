@@ -73,8 +73,24 @@ class PDPT:
         return c
 
     def GRASP(self, function, k, maxIter, sol=None):
+        """ Functional GRASP Meta heuristic
+
+        This GRASP method is based on the original GRASP meta heuristic
+        by Feo and Resende (1989).
+
+        Runtime: O(maxIter)*O_{function}(sol)
+        Additional space: O(1)
+
+        Parameters:
+           function  (lambda term): the original function.
+           k                    (): GRASP parameter
+           maxIter           (Int): maximum number of iterations
+           sol                  (): initial solution
+
+        TODO: verify this method
+        """
         for i in range(maxIter):
-            sol = self.funtion(sol, k)
+            sol = function(sol, k)
         return sol
 
     def route_insert(self, S, v, a):
@@ -214,7 +230,7 @@ class PDPT:
               Conference on Modeling, Optimization & SIMulation.
 
         """
-        def PARA(req, sol):
+        def PARA(req, Sol):
             """ Solve PDP
 
             This constructive heuristic operates in a parallel and
@@ -236,7 +252,7 @@ class PDPT:
             """
             costR = math.inf
             route = []
-            for r in sol.path:
+            for r in Sol.path:
                 # A = The cost of the best insertion of req in r
                 if A < costR:
                     costR = A
@@ -249,7 +265,7 @@ class PDPT:
                 rh = []
                 costR = 2  # insertion cost of req in rh
                 # insert req at the best slot in rh
-                sol.path.append(rh)
+                Sol.path.append(rh)
 
         def TRANSSHIPMENT(R, Sol, T):
             """Add transferships to a PDP solution
@@ -302,6 +318,7 @@ class PDPT:
             sol1 = Solution(floyd=self.floyd)
         return sol
 
+
     def solve(self, method=None, solution=None):
         """solver for PDPT instance
 
@@ -345,4 +362,3 @@ class PDPT:
             name = input()
             plt.savefig(name + ".png")
         plt.show()
-    # def pretty_print(self, solution = None, method = ):  TODO print_solution

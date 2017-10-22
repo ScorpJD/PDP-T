@@ -1,0 +1,47 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citename{Bouros {\em et~al.\ }\relax, }2011]{Bouros2011}
+Bouros, Panagiotis, Sacharidis, Dimitris, Dalamagas, Theodore, \& Sellis,
+  Timos. 2011.
+\newblock {Dynamic Pickup and Delivery with Transfers}.
+
+\bibitem[\protect\citename{Coltin, }2014]{Coltin2014}
+Coltin, Brian. 2014.
+\newblock {Multi-Agent Pickup And Delivery Planning With Transfers}.
+\newblock {\em Dissertations}.
+
+\bibitem[\protect\citename{Coltin \& Veloso, }2014]{Cata}
+Coltin, Brian, \& Veloso, Manuela. 2014.
+\newblock Scheduling for Transfers in Pickup and Delivery Problems with Very
+  Large Neighborhood Search.
+\newblock {\em Pages  2250--2256 of:} {\em Proceedings of the Twenty-Eighth
+  AAAI Conference on Artificial Intelligence}.
+\newblock AAAI'14.
+\newblock AAAI Press.
+
+\bibitem[\protect\citename{Cort{\'{e}}s {\em et~al.\ }\relax,
+  }2010]{Cortes2010}
+Cort{\'{e}}s, Cristi{\'{a}}n~E., Matamala, Mart{\'{i}}n, \& Contardo, Claudio.
+  2010.
+\newblock {The pickup and delivery problem with transfers: Formulation and a
+  branch-and-cut solution method}.
+\newblock {\em European Journal of Operational Research}, {\bf 200}(3),
+  711--724.
+
+\bibitem[\protect\citename{Masson {\em et~al.\ }\relax, }2010]{Masson2010}
+Masson, Renaud, Lehuede, Fabien, Peton, Olivier, \& Ropke, Stefan. 2010.
+\newblock {The Pickup and Delivery Problem with Shuttle routes}.
+\newblock  1--4.
+
+\bibitem[\protect\citename{Parragh {\em et~al.\ }\relax, }2008a]{Parragh2008}
+Parragh, Sophie~N., Doerner, Karl~F., \& Hartl, Richard~F. 2008a.
+\newblock {A survey on pickup and delivery problems}.
+\newblock {\em Journal fur Betriebswirtschaft}, {\bf 58}(1), 21--51.
+
+\bibitem[\protect\citename{Parragh {\em et~al.\ }\relax, }2008b]{Parragh2008a}
+Parragh, Sophie~N., Doerner, Karl~F., \& Hartl, Richard~F. 2008b.
+\newblock {A survey on pickup and delivery problems. Part I: Transportation
+  between customers and depot}.
+\newblock {\em Journal f{\"{u}}r Betriebswirtschaft}, {\bf 58}(2), 81--117.
+
+\end{thebibliography}

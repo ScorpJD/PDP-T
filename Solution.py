@@ -33,9 +33,11 @@ class Solution():
         """
         return bool(self.request and self.path)
 
-    def f(self):
-        """
-        Compute actual objective function value.
+    def f(self, path):
+        """Compute actual objective function value.
+
+        if there is an external path compute the objective function for this
+        path, otherwise update distance parameter value.
 
         runtime: O(|path|)
         aditional space: O(1)
@@ -47,6 +49,13 @@ class Solution():
            (runtime and aditional space for this function and many other
             function has a strong objective function dependence.)
         """
-        for i in range(len(self.path)):
-            if i < len(self.path) - 1:
-                self.distance += self.minDist[self.path[i]][self.path[i+1]]
+        if not path:
+            self.distance = 0
+            for i in range(len(self.path)):
+                if i < len(self.path) - 1:
+                    self.distance += self.minDist[self.path[i]][self.path[i+1]]
+        else:
+            c = 0
+            for i in range(len(path)-1):
+                c += self.floyd[1][path[i]][path[i+1]]
+            return c

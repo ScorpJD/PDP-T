@@ -22,6 +22,7 @@ class PDPT:
         origins          (tuple): The origin point for each request
         destinations     (tuple): The destination point for each request
         routes        (nx.Graph): The Graph with all the posible routes
+        solution      (Solution): The problem current solution
     """
 
     def __init__(self, number_of_vehicles=0, deposts=[], limit=[],
@@ -50,27 +51,11 @@ class PDPT:
         self.destinations = tuple(requests.values())
         self.routes = graph
         self.floyd = nx.floyd_warshall_predecessor_and_distance(self.routes)
+        self.solution = None
 
 ################################### Solver ###################################
 
 # # # # # # # # # # # # # # Constructive methods # # # # # # # # # # # # # # #
-
-    def cost(self, path):
-        """Compute path cost.
-
-        This method compute the cost of the path `path` using floyd Warshall
-        algorithm from [NetworkX]().
-
-        Runtime: O(|path|)
-        Aditional space: O(1)
-
-        Patameters:
-            path  (): The path.
-        """
-        c = 0
-        for i in range(len(path)-1):
-            c += self.floyd[1][path[i]][path[i+1]]
-        return c
 
     def GRASP(self, function, k, maxIter, sol=None):
         """ Functional GRASP Meta heuristic

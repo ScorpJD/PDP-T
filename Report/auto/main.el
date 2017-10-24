@@ -29,11 +29,9 @@
     "sec_intro"
     "sec_SoA"
     "sec_mathmod"
-    "sec_alg"
     "sec_results"
-    "sec_param"
+    "sec_sol"
     "sec_eval"
-    "sec_comp"
     "sec_conclusions")
    (LaTeX-add-bibliographies
     "bibliografia"))

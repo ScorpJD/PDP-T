@@ -51,9 +51,9 @@ Medellín -- Colombia}
 \begin{abstract}
 In this article we will be talking about Pickup and Delivery Problems with
 Transfers (PDP-T), the main idea is to show first the Pickup and Delivery
- Problem (PDP), which is the problem from which the PDP-T derives from, later
- show a description of the problem and the mathematical formulation to get a
- clear view of what we are going to solve, which leads us to present different
+Problem (PDP), which is the problem from which the PDP-T derives from, later
+show a description of the problem and the mathematical formulation to get a
+clear view of what we are going to solve, which leads us to present different
 ways of solving this kind of problems.
 
 
@@ -62,20 +62,20 @@ ways of solving this kind of problems.
 \section{Introduction}\label{sec_intro}
 
 In many logistics problems we require to pick some products in one place and
- take them to another place, which is exactly why we define the pickup and
- delivery problem (PDP), in this problem a set of vehicles pick up and deliver
- a set of items. The goal is to deliver as many items as possible at the lowest
- cost while obeying a set of constraints, such as time windows and capacities.
- The PDP is a well-studied, NP-hard problem, so approximation algorithms and
- heuristics have been developed to address variants of the PDP.
+take them to another place, which is exactly why we define the pickup and
+delivery problem (PDP), in this problem a set of vehicles pick up and deliver
+a set of items. The goal is to deliver as many items as possible at the lowest
+cost while obeying a set of constraints, such as time windows and capacities.
+The PDP is a well-studied, NP-hard problem, so approximation algorithms and
+heuristics have been developed to address variants of the PDP.
 There are many techniques we can use to solve the PDP problem, we can find
- genetic algorithms, various metaheuristics, taboo search heuristics and a
- branch and cut algorithm.
+genetic algorithms, various metaheuristics, taboo search heuristics and a
+branch and cut algorithm.
 
 To make this logistic problem bigger we can make the vehicle that is delivering
- the product transfer it to another vehicle before the delivery its done. By
- defining that we have the PDP with Transfers (PDP-T), in which we consider
- transferring items between vehicles. We can convert the PDP problem into a
+the product transfer it to another vehicle before the delivery its done. By
+defining that we have the PDP with Transfers (PDP-T), in which we consider
+transferring items between vehicles. We can convert the PDP problem into a
 PDP-T problem by adding some variables and constraints.
 
 
@@ -85,62 +85,62 @@ PDP-T problem by adding some variables and constraints.
 As we saw before, there are different methods to solve the PDP-T problem.
 
 We can use a branch and cut method using Benders Decomposition. In this method,
- the set of constraints is decomposed into pure integer and mixed constraints,
- and then a branch-and-cut procedure is applied to the resulting pure integer
- problem, by using real variables and constraints related as cut generators.
- The key on the success of this method is that those constraints defined by a
- logical sentence are not modeled using the big-M technique, as usual in a
- branch-and-bound methodology behind the original PDP formulation. This method
- may be applied only when the objective function is either pure real or pure
- integer. \citep{Cortes2010}
+the set of constraints is decomposed into pure integer and mixed constraints,
+and then a branch-and-cut procedure is applied to the resulting pure integer
+problem, by using real variables and constraints related as cut generators.
+The key on the success of this method is that those constraints defined by a
+logical sentence are not modeled using the big-M technique, as usual in a
+branch-and-bound methodology behind the original PDP formulation. This method
+may be applied only when the objective function is either pure real or pure
+integer. \citep{Cortes2010}
 
 Another method to solve it is Very Large Neighborhood Search with Transfers
 (VLNS-T) is based on the Adaptive Very Large Neighborhood Search (VLNS).
- The VLNS algorithm  uses  simulated  annealing  to  randomly  choose
- neighboring schedules and iteratively improve the schedule. Neighboring
- schedules are formed by removing random items and reinserting them with
- heuristics. So based on the VLNS algorithm for the PDP without transfers, a
- variant of simulated annealing in which the neighborhood of states is very
- large. In this case we remove random items from the schedule and then reinsert
- them with multiple heuristics to find neighbors. \citep{Cata}
+The VLNS algorithm  uses  simulated  annealing  to  randomly  choose
+neighboring schedules and iteratively improve the schedule. Neighboring
+schedules are formed by removing random items and reinserting them with
+heuristics. So based on the VLNS algorithm for the PDP without transfers, a
+variant of simulated annealing in which the neighborhood of states is very
+large. In this case we remove random items from the schedule and then reinsert
+them with multiple heuristics to find neighbors. \citep{Cata}
 
 There are also have some special cases of the PDP-T problem, as the Pickup and
- Delivery Problem with Shuttle Routes (PDP-S) which relies on a structured
- network with two categories of routes. Pickup routes visit a set of pickup
- points independently of their delivery points and end at one delivery point.
- Shuttle routes are direct trips between two delivery points. Requests can be
- transported in one leg (pickup route) or two legs (pickup route plus shuttle
- route) to their delivery point. The PDP-S applies to transportation systems
- with a multitude of pickup points and a few, common delivery points.
- \citep{Masson2010}
+Delivery Problem with Shuttle Routes (PDP-S) which relies on a structured
+network with two categories of routes. Pickup routes visit a set of pickup
+points independently of their delivery points and end at one delivery point.
+Shuttle routes are direct trips between two delivery points. Requests can be
+transported in one leg (pickup route) or two legs (pickup route plus shuttle
+route) to their delivery point. The PDP-S applies to transportation systems
+with a multitude of pickup points and a few, common delivery points.
+\citep{Masson2010}
 
 
 \section{Problem Description and Mathematic Formulation}\label{sec_mathmod}
 In the PDP, a heterogeneous vehicle fleet based at multiple terminals must
- satisfy a set of transportation requests. Each request is defined by a pickup
- point, a corresponding delivery point, and a demand to be transported between
- these locations\citep{Parragh2008}, now, PDP-T allow the option for passengers
- to transfer between vehicles, provided that the locations of the transfer
- points are fixed and known.\\
+satisfy a set of transportation requests. Each request is defined by a pickup
+point, a corresponding delivery point, and a demand to be transported between
+these locations\citep{Parragh2008}, now, PDP-T allow the option for passengers
+to transfer between vehicles, provided that the locations of the transfer
+points are fixed and known.\\
 
 \subsection{Problem Formulation}
 Let $N$ be the set of transportation requests. For each transportation request
- $i\in N$ a load of size $\bar{q_i}\in \mathbb{N}$ has to be transported from a
- set of origins $N^+_i$ to a set of destinations $N_i^+$. \\
+$i\in N$ a load of size $\bar{q_i}\in \mathbb{N}$ has to be transported from a
+set of origins $N^+_i$ to a set of destinations $N_i^+$. \\
 Each load is subdivided as follows
- $\displaystyle\bar{q_i} = \sum_{j\in N_i^+}q_j = - \sum_{j\in N_i^-} q_j$,
- i.e., positive quantities for pickups and negative quantities for deliveries.\\
+$\displaystyle\bar{q_i} = \sum_{j\in N_i^+}q_j = - \sum_{j\in N_i^-} q_j$,
+i.e., positive quantities for pickups and negative quantities for deliveries.\\
 Define $\displaystyle N^+ := \cup_{i\in N} N_i^+$ as the set of all origins and
- $\displaystyle N^- := \cup_{i\in N} N_i^-$ as the set of all destinations.
- Let $V := N^+\cup N^-$.\\
+$\displaystyle N^- := \cup_{i\in N} N_i^-$ as the set of all destinations.
+Let $V := N^+\cup N^-$.\\
 Furthermore, let $M$ be the set of vehicles. Each vehicle $k\in M$ has a
 capacity $Q_k \in \mathbb{N}$ a start location $k^+$ and an end location $k^-$.
 \\Define $M^+ := \{k^+|k\in M\}$ as the set of start locations and
 $M^- := \{k^-|k\in M\}$ as the set of end locations. Let $W := M^+ \cup M^-$.\\
 For all $i, j \in V \cup  W$ let $d_{ij}$ denote the travel distance, $t_{ij}$
- the travel time and $c_{ij}$ the travel cost. Note that the dwell time at
- origins and destinations can be easily incorporated in the travel time and
- therefore will not be considered explicitly.\\
+the travel time and $c_{ij}$ the travel cost. Note that the dwell time at
+origins and destinations can be easily incorporated in the travel time and
+therefore will not be considered explicitly.\\
 
 To formulate the PDP as a mathematical program we introduce four types of
 variables:
@@ -149,17 +149,17 @@ $$
 z_i^k =
 \begin{cases} 1 &  \text{if transportation request } i
 \text{is assigned to vehicle } k \\
- 0 & Otherwise  \end{cases}
+0 & Otherwise  \end{cases}
 $$
 for $(i, j)\in (V \times V)\cup \{(k^+,j)|j\in V\} \cup \{(j,k^-)|j\in V\}$
- and $k\in M$:
+and $k\in M$:
 $$
 x_{ij}^k = \begin{cases} 1 & \text{if vehicle } k  \text{travels from location }
  i \text{to location } j \\ 0 & Otherwise  \end{cases}
 $$
 $D_i$  with $(i \in  V\cup W)$, specifying the departure time at vertex $i$ and
 \\$y_i$ with $(i \in  V\cup W)$, specifying the load of the vehicle arriving at
- vertex $i$
+vertex $i$
 \citep{Parragh2008}.\\
 \newpage
 All this information are summarize in the next table:
@@ -221,48 +221,125 @@ vehicle. The next (4) and (5) make sure that each vehicle starts and ends at
 the correct place. Also the constraints number (6), (7), (8) and (11) together
 form the precedence constraints the others together form the capacity
 constraints.  Constraints (9), (10) and (12) together form the capacity
- constraints.\\
+constraints.\\
 This mathematical model, model the PDP problem, now for a PDP-T model in the
 literature introduce the transfer point idea, and the idea for the extended
 model is to iterative add constrains that involves this transfer points.
 
-
-\section{Solution algorithms}\label{sec_alg}
-\subsection{The Clarke and Wright Algorithm}
-The Clarke and Wright savings algorithm is one of the most known heuristic for
-VRP. It applies to problems for which the number of vehicles is not fixed (it is
- a decision variable), and it works equally well for both directed and 
-undirected problems. When two routes ${(0,…,i,0)}$ and ${(0,j,…,0)}$ can 
-feasibly be merged into a single route ${(0,…,i,j,…,0)}$, a distance saving
-${s_{ij}=c_{i0}+c_{0j}-c_{ij}}$ is generated. The algorithm works as it follows:
-\\
-
-\small{\textbf{Step 1. Savings computation}}
-\begin{itemize}
-\item Compute the savings $s_{ij}=c_{i0}+c_{0j}-c_{ij}$ for $i,j=1,…,n$ and $i \neq j$.
-\item Create ${n}$ vehicle routes ${(0,i,0)}$ for ${i=1,…,n}$.
-\item Order the savings in a non increasing fashion.\\
-\end{itemize}
-\small{\textbf{Step 2. Route Extension (Sequential version)}}
-\begin{itemize}
-\item Consider in turn each route ${(0,i,…,j,0)}$.
-\item Determine the first saving ${s_{ki}}$ or ${s_{jl}}$ that can feasibly be used to merge the current route with another route ending with ${(k,0)}$ or starting with ${(0,l)}$.
-\item Implement the merge and repeat this operation to the current route.
-\item If not feasible merge exists, consider the next route and reapply the same operations.
-\item Stop when not route merge is feasible.
-\end{itemize}
-
-
 \section{Computational Experimentation}\label{sec_results}
-\subsection{Algorithm Parametrization}\label{sec_param}
+In the next section we talk about the computational method that solve the PDP-T
+problem describe in the past. In this section present two approach base on
+\cite{multistart} and \cite{CITAR}, then we use GRASP meta heuristic describe in
+\cite{GRASP} and \cite{bGRASP}, to improve the solution also, use stochastic
 
-\subsection{Evaluation of the components of the algorithm}\label{sec_eval}
+For the computational result we use python 3.5.3 running on Intel Xeon E5-1620V4
+, 64-bit processor with 12 gigabyte RAM and Debian 9. We used problem instances
+from those in for the PDP, which are related to the well-known Solomon instances.
+The datasets are available at http://www.sintef.no/Projectweb/TOP/PDPTW/ , for
+each instance we introduce a random number of transfer points, in a random node,
+to become the original PDP instance in a PDP-T instance.\\
 
-\subsection{Comparisons with other methods}\label{sec_comp}
+Each data set contains $X - Y$ hence, the lengths of the arcs in the network are
+$L_2$ distances. For the locations of the vehicle depots, we randomly generated
+origin and final depots for each vehicle, scattered over the region formed by
+the nodes. The number of vehicles are also random generated, and finally we
+ignore the time windows restriction because are not consider in the model.
+
+\subsection{Solution methods}\label{sec_sol}
+In general we first solve the PDP problem using different method (that would be
+describe in this section) and then we add the transfership option to the PDP
+solution, so transefership option always increase the computational time of the
+particular instance.
+
+\subsubsection{Greedy approach base on \cite{multiagent}}
+We implement the greedy approach describe at \cite{multiagent} that basically,
+iterate through every item and vehicle and insert the best pickup and delivery
+action into the schedule, always choose the option that increases the cost the
+least, we repeat the process until no unassigned items remain. Then we add the
+transfer option with another greedy idea, inspired on clarke saving algorithm,
+this method compute de saving of the transfer, and if improve the solution,
+modify the solution adding this new note.
+
+\subsubsection{Multistart base on \cite{multistart}}
+As descrive at \cite{multistart}, this approach is merge many ideas.
+
+
+\subsection{GRASP}
+We implement a functional GRASP meta heuristica describe at \cite{bGRASP}, using
+the some python tricks, we create a general method that takes other method as
+parameter and then performce this meta heuristic.
+
+\newpage
+\subsection{Computational results}\label{sec_eval}
+
+\begin{table}[H]
+\caption{Greedy approach}
+\begin{tabular}{lllll}
+  \hline
+  Instance & Optimal Value & Time   & Optimal Value (with transfers) & Time (transfer) \\
+  \hline
+  10n2a    & 1202.26       & 35.29  & 1160.01                        & 24.46  \\
+  10n4a    & 2205.11       & 128.79 & 2205.11                        & 710.34 \\
+  10n8a    & 954.52        & 226.63 & 954.52                         & 702.35 \\
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\caption{Greedy approach (GRASP)}
+\begin{tabular}{lllll}
+  \hline
+  Instance & Optimal Value & Time   & Optimal Value (with transfers) & Time (transfer) \\
+  \hline
+  10n2a    & 1183.26       & 46.23  & 1134.21                        & 60.61  \\
+  10n4a    & 2143.13       & 339.91 & 2003.43                        & 530.34 \\
+  10n8a    & 842.43        & 527.54 & 842.43                         & 1241.76\\
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\caption{MULTISTART}
+\begin{tabular}{lllll}
+  \hline
+  Instance & Optimal Value & Time   & Optimal Value (with transfers) & Time (transfer) \\
+  \hline
+  10n2a    & 965.26        & 82.29  & 937.01                         & 54.46  \\
+  10n4a    & 1205.11       & 387.91 & 1205.11                        & 921.44 \\
+  10n8a    & 754.52        & 563.12 & 754.52                         & 1002.51\\
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\caption{MULTISTART (GRASP)}
+\begin{tabular}{lllll}
+  \hline
+  Instance & Optimal Value & Time   & Optimal Value (with transfers) & Time (transfer) \\
+  \hline
+  10n2a    & 935.26        & 512.36 & 933.21                         & 60.61  \\
+  10n4a    & 1205.11       & 339.91 & 1205.11                        & 530.34 \\
+  10n8a    & 742.43        & 1026.41& 741.32                         & 1412.98\\
+  \hline
+\end{tabular}
+\end{table}
 
 \section{Conclusions}\label{sec_conclusions}
+\begin{itemize}
+\item As we can see in the computational results, in general GRASP meta heuristic
+  improve the solution, but the gap between the GRASP solution and the Non-GRASP
+  solution are not significant, in the other hand, the CPU time gap's are so big,
+  so in general we cant recomend use this meta heuristic for this problem, this
+  can be a result of the implementation, as the GRASP implementation is very
+  general does not takes spetial information of the original methods, and may
+  recompute some details of the original method.
 
+\item In general MULTISTART has a better results than the Greedy approach, but
+  also are slower. Using the computational results, we can conclude that the
+  MULTISTART method is better than the Greedy.
+\end{itemize}
 
+\newpage
 {\small
 \bibliographystyle{authordate1}
 \bibliography{bibliografia}{\nocite{*}}}

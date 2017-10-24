@@ -261,15 +261,30 @@ this method compute de saving of the transfer, and if improve the solution,
 modify the solution adding this new note.
 
 \subsubsection{Multistart base on \cite{multistart}}
-As descrive at \cite{multistart}, this approach is merge many ideas.
-
+As descrive at \cite{multistart}, this hybrid approach merge many ideas. The
+solving principle is based on the following steps:
+\begin{itemize}
+  \item \textbf{An initial PDP solution (Sol) is calculated by gradually
+                inserting the requests in routes associated to vehicles.}\\
+                The initial solution is consisting of a single route containing
+                only the starting point and the ending point of each route.
+                Requests are then successively introduced into the tour of a
+                vehicle offering the minimal increase of the cost of transport.
+  \item \textbf{Transshipment is then used to “destroy” and “repair” PDP
+                solution to obtain a better solution (PDPT solution).}\\
+                At each iteration, the transshipment heuristic is used to improve
+                the PDP solution and obtain a solution to the PDPT. From the
+                current PDP solution, each request; is removed from the solution.
+                Then, the request is split into two different requests, the first
+                go from the start point to the best transfer point, the other go
+                from the transfer point to the ending point.
+\end{intemize}
 
 \subsection{GRASP}
 We implement a functional GRASP meta heuristica describe at \cite{bGRASP}, using
 the some python tricks, we create a general method that takes other method as
 parameter and then performce this meta heuristic.
 
-\newpage
 \subsection{Computational results}\label{sec_eval}
 
 \begin{table}[H]
@@ -337,9 +352,13 @@ parameter and then performce this meta heuristic.
 \item In general MULTISTART has a better results than the Greedy approach, but
   also are slower. Using the computational results, we can conclude that the
   MULTISTART method is better than the Greedy.
+
+\item PDP and PDP-T are both hard combinatorial optimization problems, the
+heuristics for such problems must avoid being trapped by local optimum, so
+a diversification procedure is needed.
 \end{itemize}
 
-\newpage
+%\newpage
 {\small
 \bibliographystyle{authordate1}
 \bibliography{bibliografia}{\nocite{*}}}

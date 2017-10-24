@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2017.8.17)  24 OCT 2017 01:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2017.8.17)  24 OCT 2017 08:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1046,32 +1046,42 @@ Package natbib Warning: Citation `multistart' on page 4 undefined on input line
 Package natbib Warning: Citation `multistart' on page 4 undefined on input line
  264.
 
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 267.
 
-Package natbib Warning: Citation `bGRASP' on page 4 undefined on input line 268
-.
-
-[4]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 329.
-
- (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 329.
- (build/main.bbl
-[5])
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 267.
+
+
+! LaTeX Error: \begin{itemize} on input line 266 ended by \end{intemize}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.281 \end{intemize}
+                    
+? 
+[4]
+
+Package natbib Warning: Citation `bGRASP' on page 5 undefined on input line 284
+.
+
+[5] (build/main.bbl)
 
 Package natbib Warning: There were undefined citations.
 
 [6] (build/main.aux) ) 
 Here is how much of TeX's memory you used:
- 14710 strings out of 493013
- 279039 string characters out of 6135682
- 333555 words of memory out of 5000000
- 17904 multiletter control sequences out of 15000+600000
+ 14711 strings out of 493013
+ 279050 string characters out of 6135682
+ 333556 words of memory out of 5000000
+ 17905 multiletter control sequences out of 15000+600000
  13315 words of font info for 51 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,11n,56p,435b,354s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,11n,56p,435b,273s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.p
@@ -1092,7 +1102,7 @@ live/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texlive/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texlive/texmf-dist/font
 s/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on build/main.pdf (6 pages, 245534 bytes).
+Output written on build/main.pdf (6 pages, 249087 bytes).
 PDF statistics:
  110 PDF objects out of 1000 (max. 8388607)
  80 compressed objects within 1 object stream

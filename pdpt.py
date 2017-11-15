@@ -168,39 +168,6 @@ class PDPT:
             A = A.append(m)
         return S
 
-    '''
-    NOTE: Now there are a general GRASP method.
-
-    def GRASP_greedy_nt(self, k):
-        """Solve PDP problem
-
-        Like `greedy_nt` method but using GRASP meta-heuristic
-
-        Runtime: O(|request|^2*|vehicles|*n^3)
-        Additional space: O(|request|)
-
-        Parameters:
-           k  (Int): GRASP parameter
-        """
-        S = Solution(floyd=self.floyd)
-        S.path = self.request
-        A = []
-        while len(A) < len(self.request):
-            Soli = []
-            m = ()
-            for a in self.request:
-                if a in A:
-                    continue
-                else:
-                    for v in self.vehicles:
-                        s, c = self.route_insert(S, v, a)
-                        Soli.append((c, s, v, a))
-            Soli.sort(key=lambda x: x[0])
-            index = random.randint(k)
-            S.path = self.route_insert(*Soli[index][1:])
-            A = A.append(Soli[index][-1])
-        return S
-    '''
     def PARA(self, req, Sol):
         """ Solve PDP
 
@@ -224,7 +191,7 @@ class PDPT:
         costR = math.inf
         route = []
         for r in Sol.path:
-            # A = The cost of the best insertion of req in r
+            A = self.bestInsertion(r)
             if A < costR:
                 costR = A
                 route = r
@@ -234,11 +201,11 @@ class PDPT:
                 route.insert(bestInsertion[1], req[1])
             else:
                 rh = []
-                costR = 2  # insertion cost of req in rh
-                # insert req at the best slot in rh
+                costR, pos = self.bestInsetion(r, rh)
+                rh.insert(costR, pos)
                 Sol.path.append(rh)
 
-    def TRANSSHIPMENT(self, R, Sol, T):
+    def TRANSSHIPMENT(self, R, Sol, T, MaxIter):
         """Add transferships to a PDP solution
 
         At each iteration, the transshipment heuristic is used to improve
@@ -268,8 +235,8 @@ class PDPT:
             sol1 = Sol; sol1.path.remove(r)
             for t in T:
                 sol2 = sol1; sol3 = sol1
-                sol2 = PARA(r, sol2)
-                sol3 = PARA((r[0], t), sol3) + PARA((t, r[1]), sol3)
+                sol2 = self.PARA(r, sol2)
+                sol3 = self.PARA((r[0], t), sol3) + self.PARA((t, r[1]), sol3)
                 cost = min(sol2.f(), sol3.f())
                 if Tbest > cost:
                     Tbest = cost
@@ -281,10 +248,9 @@ class PDPT:
         sol1 = Solution(floyd=self.floyd)
         sol.distance = math.inf
         for i in range(MaxIter):
-            R = random.shuffle(self.requests)
-            for req in R:
-                sol1 = PARA(req, sol1)
-            sol1 = TRANSSHIPMENT(R, sol1, self.transfer_points)
+            for req in self.request:
+                sol1 = self.PARA(req, sol1)
+            sol1 = self.TRANSSHIPMENT(R, sol1, self.transfer_points)
             if sol1.f() < sol.f():
                 sol = sol1
             sol1 = Solution(floyd=self.floyd)
@@ -311,17 +277,12 @@ class PDPT:
         Pool = None; Sol = None; Sol1 = None
         Sol1.distance = math.inf
         for i in range(MaxIter):
-            for i in randomRequest:  # TODO
-                Sol1 = self.PARA((i, i+n), Sol1)  # TODO
-            # Sol1 = VND(Sol1)
+            for i in self.request:
+                Sol1 = self.PARA((i, i+n), Sol1)
             if i < lamb:
                 Pool.append(Sol1)
-            Solg = self.Guiding(Pool)  # TODO
-            Soli = self.PATHRELINKING(Sol1, Solg) # TODO
-            if Soli.distance < Sol1.distance:
-                Sol1 = Soli
             self.UPDATE(Pool, Sol1)
-            Sol1 = self.TRASSHIPMENT(R, Sol1, T)
+            Sol1 = self.TRASSHIPMENT(i, Sol1, T)
             if Sol1.distance < Sol.distance:
                 Sol = Sol1
             Sol1 = None

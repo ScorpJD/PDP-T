@@ -1,6 +1,12 @@
+import numpy as np
+import networkx as nx
+# import problem
+# import nucleosome
+
+
 class Chromosome:
     def __init__(self, nucList=np.array([]), gen=np.array([]), problem=None):
-        self.N = 2#problem.N
+        self.N = problem.N
         if nucList.size:
             self.sol = amap(lambda x: x.sol, nucList)
             self.key = amap(lambda x: x.key, nucList)
@@ -11,6 +17,9 @@ class Chromosome:
             self.key = gen.reshape(self.N, int(len(gen)/self.N))
             self.sol = self.reconstruct()
             self.path = self.pathConstruction()
+        self.floyd = nx.floyd_warshall_predecessor_and_distance(problem.G)
+        self.fitness = np.inf
+        self.fit()
 
     def reconstruct(self):
         pos = 1
@@ -32,8 +41,12 @@ class Chromosome:
     def pathConstruction(self):
         path = list(self.sol)
         for i in range(len(path)):
-            path[i] = path[i].argsort()[(path[i]==0).sum():] + 1
+            path[i] = path[i].argsort()[(path[i] == 0).sum():] + 1
         return np.array(path)
+
+    def fit(self):
+        self.fitness = np.inf
+
 
 def amap(func, *args):
     args = np.broadcast(None, *args)

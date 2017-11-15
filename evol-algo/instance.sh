@@ -1,4 +1,4 @@
-# rm -r Instance
+rm -r Instance
 mkdir Instance
 cd Instance
 wget https://www.sintef.no/contentassets/1338af68996841d3922bc8e87adc430c/pdp_100.zip
